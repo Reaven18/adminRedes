@@ -1,0 +1,46 @@
+!configuración de Switch de Distribuición piso 4 Edificio Central
+enable
+conf t
+!Parametros básicos
+hostname Switch_ECP4_01_D
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuración de VLANs
+vlan 3
+name Administrativos
+vlan 4
+name Directivos
+vlan 5
+name Soporte_TI
+vlan 6
+name Estudiantes
+vlan 7
+name Servidores
+vlan 8
+name Profesores
+vlan 99
+name Admin_Infra_TI
+!Configuración de puerto truncal
+interface range gi1/0/1 - 5
+switchport mode trunk
+switchport trunk allowed vlan all
+!Configuración de interface de administración
+interface vlan 99
+ip address 172.26.36.133 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254

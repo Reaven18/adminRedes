@@ -1,0 +1,51 @@
+!configuración de Switch de Distribuición piso 2 Biblioteca
+enable
+conf t
+!Parametros básicos
+hostname BBP2_01_SWD
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuración de VTP
+vtp version 2
+vtp mode server
+vtp domain BIBLIOTECA
+vtp password cisco123
+!
+!Configuración de VLANs
+vlan 41
+name Salas_Lectura_BB
+vlan 42
+name Control_BB
+vlan 43
+name Camaras_BB
+vlan 44
+name Jefatura_BB
+vlan 99
+name Admin_Infra_TI
+!Configuración de puerto truncal
+interface range gi0/1 - 2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk allowed vlan all
+!Configuración de interface de administración
+no shutdown
+interface vlan 99
+ip address 172.26.36.145 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254
+

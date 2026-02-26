@@ -1,0 +1,49 @@
+!configuración de Switch de Acceso piso 2 Biblioteca
+enable
+conf t
+!Parametros básicos
+hostname BBP2_01_SWA
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuración de VTP
+vtp version 2
+vtp mode client
+vtp domain BIBLIOTECA
+vtp password cisco123
+!
+!Asignación de puertos a VLANs
+interface range fa0/1 - 4
+switchport mode access
+switchport access vlan 42
+interface range fa0/5 - 8
+switchport mode access
+switchport access vlan 43
+interface range fa0/23 - 24
+switchport mode access
+switchport access vlan 99
+!Configuración de puerto truncal
+interface range gi0/1 - 2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk allowed vlan 42,43,99
+!Configuración de interface de administración
+interface vlan 99
+ip address 172.26.36.144 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254
+

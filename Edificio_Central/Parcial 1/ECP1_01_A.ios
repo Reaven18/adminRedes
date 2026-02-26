@@ -1,0 +1,44 @@
+!configuración de Switch de Acceso piso 1 Edificio Central
+enable
+conf t
+!Parametros básicos
+hostname ECP1_01_SWA
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuración de VLANs
+vlan 6
+name Estudiantes
+vlan 99
+name Admin_Infra_TI
+!Asignación de puertos a VLANs
+interface range fa0/1 - 8
+switchport mode access
+switchport access vlan 6
+interface range fa0/23 - 24
+switchport mode access
+switchport access vlan 99
+!Configuración de puerto truncal
+interface gi0/1
+switchport mode trunk
+switchport trunk allowed vlan 6,99
+!Configuración de interface de administración
+interface vlan 99
+ip address 172.26.36.132 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254
+

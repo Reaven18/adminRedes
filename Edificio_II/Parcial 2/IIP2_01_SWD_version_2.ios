@@ -1,0 +1,51 @@
+!configuración de Switch de Distribuición piso 2 Edificio de Industrial
+enable
+conf t
+!Parametros básicos
+hostname IIP2_01_SWD
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+yes
+1024
+ip ssh version 2
+!
+!Configuración de VTP
+vtp version 2
+vtp mode server
+vtp domain INDUSTRIAL
+vtp password cisco123
+!
+!Configuración de VLANs
+vlan 21
+name Laboratorios_II
+vlan 22
+name Camaras_II
+vlan 23
+name Jefatura_II
+vlan 24
+name Administrativos_II
+vlan 99
+name Admin_Infra_TI
+!Configuración de puerto truncal
+interface range gi1/0/1 - 8
+switchport mode trunk
+switchport nonegotiate
+switchport trunk allowed vlan all
+!Configuración de interface de administración
+no shutdown
+interface vlan 99
+ip address 172.26.36.139 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254

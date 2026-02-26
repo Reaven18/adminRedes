@@ -1,0 +1,53 @@
+!configuración de Switch de Acceso piso 2 Edificio de Biomedica
+enable
+conf t
+!Parametros básicos
+hostname IBP2_01_SWA
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+yes
+1024
+ip ssh version 2
+!
+!
+!Configuración de VTP
+vtp version 2
+vtp mode client
+vtp domain BIOMEDICA
+vtp password cisco123
+!
+!Asignación de puertos a VLANs
+interface range fa0/1 - 4
+switchport mode access
+switchport access vlan 32
+interface range fa0/5 - 8
+switchport mode access
+switchport access vlan 33
+interface range fa0/9 - 12
+switchport mode access
+switchport access vlan 34
+interface range fa0/23 - 24
+switchport mode access
+switchport access vlan 99
+!Configuración de puerto truncal
+interface range gi0/1 - 2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk allowed vlan 32,33,34,99
+!Configuración de interface de administración
+interface vlan 99
+ip address 172.26.36.141 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254
