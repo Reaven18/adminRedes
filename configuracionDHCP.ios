@@ -1,0 +1,37 @@
+!Excluir puertas de enlace
+ip dhcp excluded-address 172.26.31.254
+ip dhcp excluded-address 172.26.37.126
+ip dhcp excluded-address 172.26.37.254
+ip dhcp excluded-address 172.26.38.126
+ip dhcp excluded-address 172.26.37.190
+!Excluir direcciones ip fijas en cada red
+ip dhcp excluded-address 172.26.0.1 172.26.0.2
+ip dhcp excluded-address 172.26.37.129
+ip dhcp excluded-address 172.26.38.129
+ip dhcp excluded-address 172.26.38.1
+ip dhcp excluded-address 172.26.37.1
+
+ip dhcp pool ESTUDIANTES
+network 172.26.0.0 255.255.224.0
+default-router 172.26.31.254
+domain-name estudiantes.equipo4.com
+
+ip dhcp pool LABORATORIOS_AE
+network 172.26.37.0 255.255.255.128
+default-router 172.26.37.126
+domain-name laboratoriosAE.equipo4.com
+
+ip dhcp pool LABORATORIOS_II
+network 172.26.37.128 255.255.255.128
+default-router 172.26.37.254
+domain-name laboratoriosII.equipo4.com
+
+ip dhcp pool SALAS_LECTURA_BB
+network 172.26.38.0 255.255.255.128
+default-router 172.26.38.126
+domain-name salasLectura.equipo4.com
+
+ip dhcp pool LABORATORIOS_IB
+network 172.26.38.128 255.255.255.192
+default-router 172.26.38.190
+domain-name laboratoriosIB.equipo4.com

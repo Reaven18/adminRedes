@@ -1,0 +1,37 @@
+!configuración de Switch de Distribuición piso 4 Edificio Central
+enable
+conf t
+!Parametros básicos
+hostname C2EDP4_01_SW
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuracion de STP
+spanning-tree mode rapid-pvst
+!Switch raiz de toda la topologia
+spanning-tree vlan 3-8,99 root secondary
+!
+!Configuración de VTP
+vtp version 2
+vtp mode client
+vtp domain CAMPUS_2
+vtp password cisco123
+!
+interface vlan 99
+ip address 172.31.2.193 255.255.255.192
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.31.2.254

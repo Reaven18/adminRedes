@@ -1,0 +1,35 @@
+
+!Archivo para eliminar la configuración de puertos de switch de acceso
+int range g0/1 - 2
+no switchport trunk native vlan
+no switchport trunk allowed vlan all
+no switchport nonegotiate
+no switchport mode trunk
+shut
+!
+!instrucciones para eliminar configuración de puerdos de switch de distribuición
+int range g1/0/1 - 8
+no switchport trunk native vlan
+no switchport trunk allowed vlan all
+no switchport nonegotiate
+no switchport mode trunk
+shut
+
+!Configurar portChannel
+!switch de distribuicion
+int range g1/0/5 - 6
+shut
+channel-group 3 mode active
+no shut
+
+!switch de acceso
+int range g0/1 - 2
+shut
+channel-group 5 mode active
+no shut
+
+!configurar portCannel como enlace truncal
+int p3
+switchport mode trunk
+switchport nonegotiate
+

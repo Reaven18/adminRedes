@@ -1,0 +1,165 @@
+!configuración de Switch de Core piso 4 Edificio Central
+enable
+conf t
+!Parametros básicos
+hostname ECP4_01_SWC
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!Configuracion de Spanning-Tree
+spanning-tree mode rapid-pvst
+!Switch raiz de toda la topologia
+spanning-tree vlan 1-4094 root primary
+!
+!Configuración de VTP
+vtp version 2
+vtp mode transparent
+vtp domain CORE
+vtp password cisco123
+!
+!Configuración de VLANs
+vlan 3
+name Administrativos
+vlan 4
+name Directivos
+vlan 5
+name Soporte_TI
+vlan 6
+name Estudiantes
+vlan 7
+name Servidores
+vlan 8
+name Profesores
+vlan 11
+name Laboratorios_AE
+vlan 12
+name Camaras_AE
+vlan 13
+name Jefatura_AE
+vlan 14
+name Administrativos_AE
+vlan 21
+name Laboratorios_II
+vlan 22
+name Camaras_II
+vlan 23
+name Jefatura_II
+vlan 24
+name Administrativos_II
+vlan 31
+name Laboratorios_IB
+vlan 32
+name Camaras_IB
+vlan 33
+name Jefatura_IB
+vlan 34
+name Administrativos_IB
+vlan 41
+name Salas_Lectura_BB
+vlan 42
+name Control_BB
+vlan 43
+name Camaras_BB
+vlan 44
+name Jefatura_BB
+vlan 99
+name Admin_Infra_TI
+!Falta agrgar todas las VLANs
+!Configuración de puerto truncal
+interface range gi1/0/1 - 12
+switchport mode trunk
+switchport trunk allowed vlan all
+!Configuración de enrutamiento
+exit
+ip routing
+interface vlan 3
+ip address 172.26.36.126 255.255.255.128
+description Gateway para VLAN3 Administrativos
+no shutdown
+interface vlan 4
+ip address 172.26.39.30 255.255.255.224
+description Gateway para VLAN4 Directivos
+no shutdown
+interface vlan 5
+ip address 172.26.39.94 255.255.255.224
+description Gateway para VLAN5 Soporte_TI
+no shutdown
+interface vlan 6
+ip address 172.26.31.254 255.255.224.0
+description Gateway para VLAN6 Estudiantes
+no shutdown
+interface vlan 7
+ip address 172.26.38.254 255.255.255.192
+description Gateway para VLAN7 Servidores
+no shutdown
+interface vlan 8
+ip address 172.26.35.254 255.255.252.0
+description Gateway para VLAN8 Profesores
+no shutdown
+interface vlan 11
+ip address 172.26.37.126 255.255.255.128
+no shutdown
+interface vlan 12
+ip address 172.26.39.126 255.255.255.224
+no shutdown
+interface vlan 13
+ip address 172.26.39.158 255.255.255.224
+no shutdown
+interface vlan 14
+ip address 172.26.39.190 255.255.255.224
+no shutdown
+interface vlan 21
+ip address 172.26.37.254 255.255.255.128
+no shutdown
+interface vlan 22
+ip address 172.26.39.222 255.255.255.224
+no shutdown
+interface vlan 23
+ip address 172.26.39.254 255.255.255.224
+no shutdown
+interface vlan 24
+ip address 172.26.40.30 255.255.255.224
+no shutdown
+interface vlan 31
+ip address 172.26.38.190 255.255.255.192
+no shutdown
+interface vlan 32
+ip address 172.26.40.46 255.255.255.240
+no shutdown
+interface vlan 33
+ip address 172.26.40.62 255.255.255.240
+no shutdown
+interface vlan 34
+ip address 172.26.40.78 255.255.255.240
+no shutdown
+interface vlan 41
+ip address 172.26.38.126 255.255.255.128
+no shutdown
+interface vlan 42
+ip address 172.26.40.94 255.255.255.240
+no shutdown
+interface vlan 43
+ip address 172.26.40.110 255.255.255.240
+no shutdown
+interface vlan 44
+ip address 172.26.39.62 255.255.255.224
+no shutdown
+interface vlan 99
+ip address 172.26.36.254 255.255.255.128
+description Gateway para VLAN99 Admin_Infra_TI
+no shutdown
+
+
+

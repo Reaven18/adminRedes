@@ -1,0 +1,62 @@
+!configuración de Switch de Acceso piso 4 Edificio Central
+enable
+conf t
+!Parametros básicos
+hostname Switch_ECP4_01_A
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+!
+!Configuracion de STP
+spanning-tree mode rapid-pvst
+!Configuracion de puertos de borde (hosts)
+int range f0/1 - 24
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+!
+!
+!Configuración de VTP
+vtp version 2
+vtp mode client
+vtp domain EDIFICIO_CENTRAL
+vtp password cisco123
+!
+!Asignación de puertos a VLANs
+interface range fa0/1 - 4
+switchport mode access
+switchport access vlan 4
+interface range fa0/5 - 8
+switchport mode access
+switchport access vlan 5
+interface range fa0/9 - 12
+switchport mode access
+switchport access vlan 7
+interface range fa0/23 - 24
+switchport mode access
+switchport access vlan 99
+!Configuración de puerto truncal
+conf t
+interface range gi0/1 - 2
+switchport mode trunk
+switchport nonegotiate
+switchport trunk allowed vlan 4,5,7,99
+!Configuración de interface de administración
+interface vlan 99
+ip address 172.26.36.129 255.255.255.128
+no shutdown
+!Configuración de gateway predeterminado
+ip default-gateway 172.26.36.254
+
