@@ -40,3 +40,13 @@ exit
 interface Vlan7
 ip access-group SERVER_ZONE_FILTER out
 end
+
+!ping
+ip access-list extended SERVER_ZONE_FILTER
+265 permit icmp any host 172.26.38.193 
+266 permit icmp any host 172.26.38.194 
+
+!no, remove
+conf t
+no ip access-list extended SERVER_ZONE_FILTER
+do sh acc
