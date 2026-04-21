@@ -1,0 +1,23 @@
+!uSED ON C2 SWITCHES CUZ SOME OF THEM DIDNT HAVE IT
+
+enable
+conf t
+!Parametros básicos
+hostname TT_A
+ip domain-name equipo4.com
+banner motd #Acceso restringido a personal autorizado#
+enable secret class
+service password-encryption
+username admin secret cisco
+line con 0
+password cisco
+login
+line vty 0 4
+transport input ssh
+login local
+!Configuración de ssh
+crypto key generate rsa
+1024
+ip ssh version 2
+
+no ip domain-lookup

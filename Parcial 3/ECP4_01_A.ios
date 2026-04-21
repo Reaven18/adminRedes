@@ -1,0 +1,11 @@
+!configuracion de Switch
+enable
+conf t
+
+!Parametros basicos
+hostname Switch_ECP4_01_A.ios
+ip domain-name equipo4.com
+banner motd #Unauthorized Access is Forbidden#
+enable secret class
+service password-encryption
+username admin secret cisco

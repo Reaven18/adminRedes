@@ -1,0 +1,42 @@
+! exclude address in core
+172.26.38.194
+
+configure ip address
+
+conf t
+
+ip access-list extended SERVER_ZONE_FILTER
+permit tcp 172.26.32.0 0.0.3.255 host 172.26.38.194 eq 80
+permit tcp 172.26.32.0 0.0.3.255 host 172.26.38.194 eq 443
+permit tcp 172.26.0.0 0.0.31.255 host 172.26.38.194 eq 80
+permit tcp 172.26.0.0 0.0.31.255 host 172.26.38.194 eq 443
+permit tcp 172.26.37.0 0.0.0.127 host 172.26.38.194 eq 80
+permit tcp 172.26.37.0 0.0.0.127 host 172.26.38.194 eq 443
+permit tcp 172.26.37.128 0.0.0.127 host 172.26.38.194 eq 80
+permit tcp 172.26.37.128 0.0.0.127 host 172.26.38.194 eq 443
+permit tcp 172.26.38.128 0.0.0.63 host 172.26.38.194 eq 80
+permit tcp 172.26.38.128 0.0.0.63 host 172.26.38.194 eq 443
+
+permit tcp 172.26.39.0 0.0.0.31 host 172.26.38.193 eq 80
+permit tcp 172.26.39.0 0.0.0.31 host 172.26.38.193 eq 443
+permit tcp 172.26.39.160 0.0.0.31 host 172.26.38.193 eq 80
+permit tcp 172.26.39.160 0.0.0.31 host 172.26.38.193 eq 443
+permit tcp 172.26.40.0 0.0.0.31 host 172.26.38.193 eq 80
+permit tcp 172.26.40.0 0.0.0.31 host 172.26.38.193 eq 443
+permit tcp 172.26.40.64 0.0.0.15 host 172.26.38.193 eq 80
+permit tcp 172.26.40.64 0.0.0.15 host 172.26.38.193 eq 443
+permit tcp 172.26.39.128 0.0.0.31 host 172.26.38.193 eq 80
+permit tcp 172.26.39.128 0.0.0.31 host 172.26.38.193 eq 443
+permit tcp 172.26.39.224 0.0.0.31 host 172.26.38.193 eq 80
+permit tcp 172.26.39.224 0.0.0.31 host 172.26.38.193 eq 443
+permit tcp 172.26.40.48 0.0.0.15 host 172.26.38.193 eq 80
+permit tcp 172.26.40.48 0.0.0.15 host 172.26.38.193 eq 443
+permit tcp 172.26.40.96 0.0.0.15 host 172.26.38.193 eq 80
+permit tcp 172.26.40.96 0.0.0.15 host 172.26.38.193 eq 443
+
+deny ip any any 
+exit
+
+interface Vlan7
+ip access-group SERVER_ZONE_FILTER out
+end

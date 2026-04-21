@@ -1,0 +1,66 @@
+conf t
+
+ip access-list standard ADMIN_ACCESS
+
+permit 172.26.36.128 0.0.0.127
+permit 172.31.2.192 0.0.0.63
+deny any
+
+exit 
+line vty 0 4
+access-class ADMIN_ACCESS in
+
+end
+
+
+add this to other swithces, but first add ip to the s3, and basic config and ssh, and the acls at the end and try with admin pc
+23 24 change the swithcport mode access to access switches to add pcs
+
+EC_D
+conf t
+int vlan 77
+ip address 172.31.2.194 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+DyA_D
+conf t
+int vlan 77
+ip address 172.31.2.195 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+TT_D
+conf t
+int vlan 77
+ip address 172.31.2.196 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+EC_A
+conf t
+int vlan 77
+ip address 172.31.2.197 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+DyA_A
+conf t
+int vlan 77
+ip address 172.31.2.198 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+TT_A
+conf t
+int vlan 77
+ip address 172.31.2.199 255.255.255.192
+exit
+ip default-gateway 172.31.2.193
+
+
+
+switchport access vlan 77
+switchport mode access
+spanning-tree portfast
+spanning-tree bpduguard enable
